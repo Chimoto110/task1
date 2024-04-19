@@ -1,0 +1,1607 @@
+!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	StarBus* | UTC Online 4.0
+</title><meta charset="utf-8" /><link rel="icon" type="image/ico" href="images/ktclogo.png" /><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /><meta name="description" content="UTC Online Booking" /><meta name="keywords" content="UTC, Utc Bus Booking, Uttarakhand bus, Uttarakhand bus online booking, online bus ticket booking, bus booking, volvo ac bus booking, bus ticket booking, bus tickets" /><meta name="author" content="UTC" /><meta http-equiv="refresh" content="600" /><meta http-equiv="X-UA-Compatible" content="IE=edge,11,EmulateIE11,10,EmulateIE10,9,EmulateIE9,8" /><link href="new/css/fonts.css" rel="stylesheet" /><link rel="stylesheet" href="new/css/open-iconic-bootstrap.min.css" /><link rel="stylesheet" href="new/css/animate.css" /><link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" /><link rel="stylesheet" href="new/css/owl.carousel.min.css" /><link rel="stylesheet" href="new/css/owl.theme.default.min.css" /><link rel="stylesheet" href="new/css/magnific-popup.css" /><link rel="stylesheet" href="new/css/aos.css" /><link rel="stylesheet" href="new/css/ionicons.min.css" /><link rel="stylesheet" href="new/css/bootstrap-datepicker.css" /><link rel="stylesheet" href="new/css/jquery.timepicker.css" /><link rel="stylesheet" href="new/css/flaticon.css" /><link rel="stylesheet" href="new/css/icomoon.css" /><link rel="stylesheet" href="new/css/style.css" /><link href="style.css" rel="stylesheet" />
+
+    <script src="NewAssets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/jqueryuimin.js"></script>
+    <link href="assets/css/UIMin.css" rel="stylesheet" />
+    <script src="assets/download_jquery-confirm.min.js"></script>
+    <link href="assets/download_jquery-confirm.min.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.noConflict();
+            SearchText();
+            DetectAndServe();
+        });
+        function SearchText() {
+            $('#tbFrom').autocomplete({
+                minLength: 1,
+                source: function (request, response) {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        url: "home.aspx/GetStation",
+                        data: "{'empName':'" + request.term + "','flag':'F','Othervalue':'" + $("#tbTo").val() + "'}",
+                        dataType: "json",
+                        success: function (data) {
+                            response(data.d);
+                        },
+                        error: function (result) {
+                        }
+                    });
+                }
+            });
+            $("[id$=tbTo]").autocomplete({
+                minLength: 1,
+                source: function (request, response) {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        url: "home.aspx/GetStation",
+                        data: "{'empName':'" + request.term + "','flag':'T','Othervalue':'" + $("#tbFrom").val() + "'}",
+                        dataType: "json",
+                        success: function (data) {
+                            response(data.d);
+                        },
+                        error: function (result) {
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ul li {
+            display: inline;
+        }
+
+        .modalBackground {
+            background-color: black;
+            opacity: 0.6;
+        }
+
+        .ftco-footer {
+            padding: 2em 0;
+            font-size: 10pt;
+            margin-bottom: -50px;
+        }
+
+        .block-23 ul li .icon {
+            width: 20px;
+            font-size: 18px;
+            padding-top: 0px;
+            color: white;
+        }
+
+        .block-23 ul li, .block-23 ul li > a {
+            margin-bottom: 7px;
+        }
+
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: #1089ff;
+            color: white;
+            cursor: pointer;
+            padding: 10px 18px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+            #myBtn:hover {
+                background-color: #555;
+            }
+        
+    </style>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .mySlides {
+            display: none;
+        }
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
+
+        /* Next & previous buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .text {
+            left: 0;
+        }
+
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        /* Caption text */
+        .text {
+            color: black;
+            font-size: 15px;
+            padding: 0px;
+            bottom: 8px;
+            width: 100%;
+            text-align: justify;
+        }
+
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+
+
+        /* The dots/bullets/indicators */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        /*  .active, .dot:hover {
+                background-color: #717171;
+            }*/
+
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 2.5s;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: .4;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* On smaller screens, decrease text size */
+        @media only screen and (max-width: 300px) {
+            .prev, .next, .text {
+                font-size: 11px;
+            }
+        }
+
+        .dropdown-toggle {
+            color: #ffffff;
+        }
+
+        .ftco-navbar-light.scrolled .dropdown-toggle {
+            color: #000000 !important;
+        }
+
+        .ui-autocomplete-loading {
+            background: url('new/css/ajax-loader.gif') no-repeat right center !important;
+        }
+
+
+        @media (max-width: 991.98px) {
+            .slider-text {
+                height: 450px;
+            }
+        }
+    </style>
+
+    <script>
+        function getMobileOperatingSystem() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            // Windows Phone must come first because its UA also contains "Android"
+            if (/windows phone/i.test(userAgent)) {
+                return "Windows Phone";
+            }
+
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+
+            // iOS detection from: http://stackoverflow.com/a/9039885/177710
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return "iOS";
+            }
+
+            return "unknown";
+        }</script>
+
+    <script>
+        function DetectAndServe() {
+            let os = getMobileOperatingSystem();
+            if (os == "Android") {
+                document.getElementById('a_playstore').style.display = "";
+                document.getElementById('a_appstore').style.display = "none";
+                $find("mpFirst").show();
+            } else if (os == "iOS") {
+                document.getElementById('a_playstore').style.display = "none";
+                document.getElementById('a_appstore').style.display = "";
+                $find("mpFirst").show();
+            }
+        }
+    </script>
+<link href="/WebResource.axd?d=5m1AmA2Ye5UbpIG3cZXB5xE7Dnw0MxztwDO8Ejc7PxrTFCRO-O7ddhC9gJjd2yGCnivLuavX1rqaefNC1OBPKv3TIHx1r_nlGxu_6ubP_JY-nKtXWLErw-0iLaeaecxJSVlGC-PDeXCXyb2hqurVDxORKcc1&amp;t=636230591180000000" type="text/css" rel="stylesheet" /><link href="/WebResource.axd?d=JcVWaeRQsoYnN_xmsRFPOY1PdG-am--3fflygKm_k_RLHK-cYdeSEKchuLj1E9bdG6veNSO3A9IEZDBCDcHkG_aJxTnA0jFV_7uB82ehaEAenxuNVKfQ4actYwdKvplXdScVF6LGovHUAo7O9vcPpZED8UI1&amp;t=636230591180000000" type="text/css" rel="stylesheet" /></head>
+<body>
+    <form name="form1" method="post" action="./" id="form1">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=qHSZRkmwRdeoGzxgypmhUAoYrQRYW-fi4hXxz5sFgpZrcjD-Kie9SjS5gDsqmftfMnM6MzYVY8w1SMM-LhpiMjgVo1E1&amp;t=637814858020000000" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=eoaR2KVbzaDplc15h8qW7fGzsdSObQ4jHO153436_qJ2iNffxP9WBt1LiCrcNXNRKtSaGQ5o5PRQtgRbjr8LzIPupBeeV8Py9EMub1jw2cCbThvxEFdlnpkqrydKoE8DfC9NQUuNLNj908ML1hrhcq6D0WSGwG4oi3o-78FFENOvDmCU0&amp;t=49337fe8" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=WYDz20u4tUFYC8jKvwnjHc03aA_UgZNCRKO-_kSBu8HjmKqdyX8eqI7wMyUn9tdNtIgM-4l5a7UO5rD49krNDpWxPbG8EoFX3ZBw-xFJh7rSNOYkESqNo47_IKWorSibLq7Mwj0y-IB8VbYifQXqvqDLTCEMP9KNNmE_coVRb44yPn720&amp;t=49337fe8" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=YJaQLsPTThVusqgO4l5sQDAagojxjaijroEJlfD_vigvEnb6SgduCq1EE_SgN43rmvg_EOh98nL0swykRj2WhxqWk0jWMWRxKi7nGa6K5DreG2nVEQ1r8O2fSeaFH6hZVEAo5Q2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=QkV1gW62HnigKLBmP4mCK3pQnW9B1KQoNL7LLFe0a2x4Z7zpmzwLBtoCyEItii6YS7Ga8Y07VHKUYz2v5S92_D0qg9kioV38neeerP-E7LFmq3Lt-UvflXJ49EqKEgot2LDguA2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=q6-IVLtKtvwMCNzuaIprM6u0w67-3qiM-HUd7TZ6IDJ6dwHnTZoKyAmlHnA2GItXksHdMKFtMENUcOSzBC44YriAZosHZQlIkGTwN9QJyDboxj9jZ_Uo9ZmjgCxyjpWIse54uw2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=VDgeBDTNVlOeX3rT41cOSsvpPLGoXXCritOUXliP8g8O8GgZyJkEfGfOLzrmx3rjQ-wwXpPbXmI_ur95fvBBoa3vsFV1nLxrSSr-daGo-JSkGKv80&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=2q_r3_DGgyqkSXnZ8neh8GBHWkHDDm3i7w7jkmTS3dpnuollsQUjjV1lRiLHW1giXZdzMKHMM9Ew4k4RA6PbpIF2_vjId5Jss7ru9WmLglP-W5UtbU_v9eTuLyroJFhit7BQ2Q2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=nK462FBcZOWKiSEE_hjJy2MK6KtkdNhQQvLwQ6gFFwaTz0jjqNPmjTYWYKFZsbrCsyV7hzAvBxOpz7nbfobYSdc6lbPfnLLm1mJND0nUX3P3kveUj_frN-ET5vjvd3kqc_WcPA2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=EX-YNTPPpJWAWKI1RzzuDr_1RthSPMy1tipCLQk_m_EgJSRtmWo4K4HRnjkCeCroSVWKvRJOpFhk2ZyRjhnKvMJfWmHEJmfaKTYgXR5B91PXPIbkXSvHdUK9L-fEMEnbB4zY8g2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=rnOkhVV13qYWxN44unY-YiM58YweNa7XRwUVlUOGhdCTlNhlTDAeCOb3f_ABg5x0QttYyOyV9ngJyqO-pdlaBaCE7tshAfBZGzzrtmws-1j9iHCbJQMyDpGQMSRB8nv8Bo3VSA2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=ITgeCGZJZ4AR5k5hwIXvSH7v0LRNPyo0wCNIr1x-jRpTR7hoNy-IURACwLeSI6iPmDADDkTmTV0VzSrti0y40fH-gFebXyu7uyz07XESSfphad97emZ2dGrnz2Nvd3R5reKwbQ2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=dzDCPbgyXOCTYHgYEpJg20dymi0dR1I5fMB3vxVebKIEidvuV56QSgWaAg4IPBg7tDwhskoBE0jWoLZX21SdZlYKLhoQxPajKgBqNPhZIAiX2-ql0&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=SkRw0fLKh3jZNurRPm2ZHfxBqWxeFjfXjpOYP1_mZkXHiqeeORB-zYHqj9ZMUARczwLVMWmbX7EUwUcdrmwXtXe17nI5Ms8TC-cZfgaAiiQQkJWC0&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=q6IBnqK34gKEDNo9aG0G05ry8stpU2URB94LdbrttEEA5Q6rw0QUkmHIbMraYjPGAD42U3Oo0M-ZLfRuygBo5VqaxNRWgR-cc8YdD8F0kdqxD8OUajrS4BfomuKa3aWocfM3Xg2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=L6wjtdHMoM9Yz8jjO2pWAvGA8qBzlQhZrZl-3nVw3r3B2Od1BLEPEt_pbxnPKQ5dIUKKrkQnRyJkfJWf16W-p6FYaE-RLdotePGmLmjNoTVVZvw30&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=wYXfzqFPfK55fQX9hty11meriyM24P8c5XHmLtqSp6-HRcZAlv-eawnIdAGX2-rNEDaMXLtwRlj1kLWFsvKuRMtuM533CMmUVlCY75-LAFpY3WF0ZLHr4TQFOpa_czaptGtp6w2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=xtIQyYYHtyKm6L2mf-X3d_SkyB9MLqJVdjfcfBlCvc-wIJkkGR8J3RB25Yr6PbuGVKFKZpwT5xT1j8huleDRS5DX8tzEvik9-s1K2Fj-kQ0NO1YxRe0jgzkU-b9SupVjRsLGkg2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=ILiXNFEBZJvYTp5h3ODwJLBg9e_7KkTzQk6mmwMFncI6rT00b7UBTfcWujO9Jfh9-pIwXhYuoS36aiYImGv2XeAaUvF2W4jtkridG1hTp629bReEiFeqCvTOaC982aQLMEJsPA2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=WMxhKuq4Q2R9GVyUs_JR6KpdKeTp-bpefQBAjYaxmkh_pYtExL3ut9DU7DccaiFQ5HU5Gkr46tUHa5u8eBDMCNG2rgnZ1ldiKs3OJj8zW5XEDuVIFe69XwFi7Jnu9uqMEaLu3A2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=Wda1wOzGl4lsEcnjX4MwdM30Y51kZvjtOtPDViXa01DuyhE1OHu_T-Ax0WFoVtSjnk69dX7yutlPeOXWbTLGqUGTsJyErb0oLmQUBiKuCKhBrHPgfLtw2HwUM7kkfxN1tiAOlA2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=-7YuPSrAeBQkaEiFGVI67oZqz1spM9DfHvK913IndIPovGMjZvmgyp6jJyo6k_vi031xBZ5hlocljKPZ7jGAyQC2MyBTOnNiZXAsvyFVndDieOqPPvKSEw8gb9CtthL-shZ6mQ2&amp;t=fffffffff65665cf" type="text/javascript"></script>
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="8D0E13E6" />
+	<input type="hidden" name="__SCROLLPOSITIONX" id="__SCROLLPOSITIONX" value="0" />
+	<input type="hidden" name="__SCROLLPOSITIONY" id="__SCROLLPOSITIONY" value="0" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="+MMKRjee2jvIgExvAqHN93BFgFXr5TW4Cm+xeUI3DlylIFinO0jHBCwXFTn9Pk+l+LFWhaxxUZ+h2n7+iYx1XMaomY5HsBqU6Rga3OdBJbjbuMZX9ZDdhE/F8mbJJsrEddUSIUK7iWwRg9jzeUzzFUdqCCjOUEN0BC05KpwMHk4JhAPwccv8mkqkWfNTZEztap0oNHRP4uOOBiQOaSJsitAmbY9jDHok4S5qXkxFeLTOYeSJmAv9dfTMDnc31TGapu5dx1mxyoZNe/LCP9rA6ejiIbOe2ebtR9u+BoG1yODVc4CJ/GpQ+LikVSaQEvmac37rCBqlQA9I/L0Mn3Xu1NUxfQHas253HNusk9x9H4dPaOvySWwHFAo/2qRmI72tZ77DdabLCXCsktQeNCu+rZM9VathWeGphN8hAWkfsifKzFQ9vF/tHMTK6BDjpYsPioUCcoOO1dGmFFDuT99qbJscVuDk1/iKkonySGwvFIT45PU18CZtO5SPiJtcXVZDv/OQAbSx9B12XgKXeC4gdcMTdT37MAvyS24CKOahejYErvaIcp4jebUGPYnIUvGuCFK0rjQ9Zet6py0otpdM/yzMBB2Vl5i7vDTuJqQKugYQWtEPdLUZA2unhr1L6VxKRdlaNihT63rhUxcggAOc67hxpL3pUK4dJmKIy3UfK6OQyCaoq6Ks58W5F43jXWt2kIwVjOdHwqUo7L/sZIg2eDcpMPiku66QI19gOnis7dwqr0UCjRWFAwgU47zrMPphLZCyEGid87M58OVVNOp8aOlOkCXx6WmQxVzkh0/4UD/P70fVvJXV2PEGVn+jUVikn1bawacVnOswM1NKlCEtSFa7z4zc6P+Py2bPGi2V7El99CV4qzUOwpNSuQtjdobrzmQFw40ZJAQoI+p4eWUxqOGtlzu0Eka6W6Q0ayNlc+2DNAUniSJwG1jXtK+NONzYT3VxNDclYmhRoSpBprTNfWc/WEjWbvK6P8VzKfFh12fZu7sZJ+xr3Aq2UZeP7lji3aRZ0p7lN3hVuVrGDfEBNQA7VWbesugILwIxEB3KDPlbg4ogEnfXFmjYKsv8nRhvGvnnNNXw2ReoMZRonEk9XTcj1hLTOsH8jN6SCBhGYmZEJVOgPTD/bnz4jEYLd57E5h2gYRmnL6X+uuoQNPulUh0bi9X5liYqKxwgjW/dGvp5f4Nd07GwwSWJkYN+W690A9qb2j0vUGGV6eGP5P2XuBc3Sx2AVNQkzPQH3kZHrB+Eg3e331j3he9QWRVdQosZ3gAG8c2MZuCJ44zs651AtI05UkM=" />
+</div>
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ScriptManager1', 'form1', ['tUpdatePanel','','tUpdatePanel1',''], [], [], 90, '');
+//]]>
+</script>
+
+
+        <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-auto navbar-brand m-0 pr-4" style="text-transform: none; border-right: 1px solid #858585;">
+                        <p>
+                            <span id="lblappname">StarBus*</span>
+                        </p>
+                    </div>
+                    <div class="col-xs pl-4">
+                        <img id="imgDeptLogo" src="Logo/logo_19.png" style="border-width:0px;height: 45px;" />
+                    </div>
+                    <div class="col-xs navbar-brand m-0 pl-3" style="line-height: 24px;">
+                        <span id="lblTitle">UTC Online</span>
+                        <p style="font-size: 11px; margin: 0px;">
+                            <span id="lblVersion">Ver 4.0</span>
+                        </p>
+                    </div>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="oi oi-menu"></span>
+                    <span id="lblMenu1">Menu</span>
+                </button>
+                <div class="collapse navbar-collapse" id="ftco-nav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active"><a href="home.aspx" class="nav-link">
+                            <span id="lblMenuHome">Home</span></a></li>
+                        <!--<li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                            <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+                            <li class="nav-item"><a href="pricing.html" class="nav-link">Pricing</a></li>
+                            <li class="nav-item"><a href="car.html" class="nav-link">Cars</a></li>
+                            <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>-->
+                        <li class="nav-item">
+                            <div class="btn-group nav-link">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer; background: transparent; border: none;">
+                                    <span id="lblMenuAboutUs">About Us</span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="AboutUTC.aspx" title="Click here to About Uttarakhand Transport Corporation">
+                                        <span id="lblMenuHistory">About UTC</span></a>
+                                    <a class="dropdown-item" href="route.aspx" title="Click here to Routes">
+                                        <span id="lblMenuRoutes">Routes</span></a>
+                                    <a class="dropdown-item" href="rti.aspx" title="Click here to RTI Manuals">
+                                        <span id="lblMenuRTI">RTI</span></a>
+                                    <a class="dropdown-item" href="PIOS_APIOS.aspx" title="Click here to PIOS/APIOS">
+                                        <span id="lblMenuPIOS">PIOS</span></a>
+                                    <a class="dropdown-item" href="actrules.aspx" title="Click here to Act & Rules">
+                                        <span id="Label3">Act & Rules</span></a>
+                                    <a class="dropdown-item" href="#ourMentors" title="Click here to our mentors">
+                                        <span id="lblMenuOurMentors">Our Mentors</span></a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="Agents.aspx" title="Click here to authorized agents">
+                                        <span id="lblMenuAgents">Agents</span></a>
+                                    <a class="dropdown-item" href="BookingCounters.aspx" title="Click here to Booking Counters">
+                                        <span id="lblBookingCounters">Booking Counters</span></a>
+                                    <a class="dropdown-item" href="CommonServiceCentres.aspx" title="Click here to Common Service Centers">
+                                        <span id="lblCommonServiceCentres">Common Service Centers</span></a>
+
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="TenderDetails.aspx" title="Click here to publish tenders">
+                                        <span id="lblMenuTender">Tender</span></a>
+                                    <a class="dropdown-item" href="ChartedBusBooking.aspx" title="Click here to Charted Bus Booking">
+                                        <span id="lblMenuChartedBusBooking">Charted Bus Booking</span></a>
+                                    <a class="dropdown-item" href="CourierBooking.aspx" title="Click here to Courier Booking">
+                                        <span id="lblMenuCourierBooking">Courier Booking</span></a>
+                                    
+                                    
+
+                                    <a class="dropdown-item" href="UnitFleet.aspx" title="Click here to Unitwise fleet" style="display: none">
+                                        <span id="lblMenuUnitwiseFleet">Unitwise fleet</span></a>
+                                    
+                                    <a class="dropdown-item" href="LabourWelfare.aspx" title="Click here to Labour Welfare">
+                                        <span id="lblMenuLabourWelfare">Labour Welfare</span></a>
+                                    <a class="dropdown-item" href="KeyStatistics.aspx" title="Click here to Key Statistics" style="display: none">
+                                        <span id="lblMenuKeyStatistics">Key Statistics</span></a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="cancellationPolicy.aspx" title="Click here to Cancellation Policy">
+                                        <span id="lblcancpolicy">Cancellation Policy</span></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="btn-group nav-link">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer; background: transparent; border: none;">
+                                    <span id="lblMenu">Any Query ?</span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="helpdesk.aspx">
+                                        <span id="lblMenuHelpdesk">Helpdesk</span></a>
+                                    <a class="dropdown-item" href="contactUs.aspx">
+                                        <span id="lblMenuContactUs">Contact Us</span></a>
+                                    <a class="dropdown-item" href="grievance.aspx">
+                                        <span id="lblMenuGrievance">Grievance</span></a>
+                                    <div class="dropdown-divider"></div>
+                                    
+                                    <a class="dropdown-item" href="faq.aspx">
+                                        <span id="lblMenuFAQ">FAQ</span></a>
+                                </div>
+                            </div>
+                        </li>
+                        
+                       
+    			<li class="nav-item">
+                            <div class="btn-group nav-link">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer; background: transparent; border: none;">
+                                    <span id="Label6">Online Service</span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="bookTicket.aspx">Search & Book</a>
+                                    <a class="dropdown-item" href="cancelTicket.aspx">Cancel Ticket</a>
+                                    <a class="dropdown-item" href="downloadTicket.aspx">Download eTicket</a>
+                                     <a class="dropdown-item" href="timetable.aspx">Bus Timetable</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="busPass.aspx">Apply For Pass</a>
+                                    <a class="dropdown-item" href="busPass.aspx">Download Pass</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="AgentRegistrationForm.aspx">Apply For New Agent</a>
+                                    <a class="dropdown-item" href="OnlAgTrackApplication.aspx">Track Application Status</a>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <div class="btn-group nav-link">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer; background: transparent; border: none;">
+                                    <span id="Label11">Login</span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="trvlLogin.aspx" >
+                            <span id="lblMenuTravellerLogin">Traveller Login</span></a>
+                                    <div class="dropdown-divider"></div>                                  
+                                    <a class="dropdown-item" href="login.aspx" >Department Login</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END nav -->
+        <div class="hero-wrap ftco-degree-bg" id="topp" style="background-image: url('new/images/home.jpg');" data-stellar-background-ratio="0.5">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row no-gutters slider-text justify-content-start align-items-center justify-content-center">
+                    <div class="col-lg-10 ftco-animate">
+                        <div class="text w-100 text-center mb-md-5 pb-md-5" style="margin-top: -50px;">
+                            <h1 class="mb-4">
+                                <span id="lblDeptName">Uttarakhand Transport Corporation</span></h1>
+                            <p style="font-size: 18px;">
+                                <span id="lblHeaderText2">One Portal for Travellers to avail online services related to Seat Booking, Bus Pass and many more</span>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="ftco-section ftco-no-pt bg-light">
+            <div class="container">
+                <div class="row no-gutters">
+                    <div class="col-md-12	featured-top">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 align-items-center">
+                                <div class="request-form ftco-animate bg-primary">
+                                    <h2>
+                                        <span id="searchBook">Search & Book</span></h2>
+                                    <div class="form-group mb-2">
+                                        <span id="lblFromStationHeader" class="label font-weight-light mb-0" style="color: #fff; font-size: 12px; text-transform: uppercase;">From</span>
+                                        <input name="tbFrom" maxlength="50" id="tbFrom" title="From Station Name" class="form-control" type="Search" placeholder="Station Name" autocomplete="off" style="text-transform: uppercase; border-color: #ffffff94 !important; font-size: 16px;" />
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <span id="lblToStationHeader" class="label font-weight-light mb-0" style="color: #fff; font-size: 12px; text-transform: uppercase;">To</span>
+                                        <input name="tbTo" maxlength="50" id="tbTo" title="To Station Name" class="form-control" type="Search" placeholder="Station Name" autocomplete="off" style="text-transform: uppercase; border-color: #ffffff94 !important; font-size: 16px;" />
+                                    </div>
+                                    <div class="form-group">
+                                        <span id="lblDateHeader" class="label font-weight-light mb-0" style="color: #fff; font-size: 12px; text-transform: uppercase;">Date</span>
+                                        <input name="tbDate" type="text" maxlength="10" id="tbDate" title="Date" class="form-control" placeholder="DD/MM/YYYY" autocomplete="off" style="text-transform: uppercase; border-color: #ffffff94 !important; font-size: 16px;" />
+                                        
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" name="search" value="Search" id="search" title="Search" class="btn btn-secondary py-3 px-4" />
+                                    </div>
+                                    <div class="row d-flex my-5">
+                                        <div class="col-md-12 d-flex align-self-stretch ftco-animate">
+                                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                            <div id="pnlNoNotice" class="services w-100 text-center">
+	
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <span class="icon-newspaper-o text-white" style="font-size: 30px;"></span>
+                                                </div>
+                                                <div class="text w-100 text-center">
+                                                    <p class="mt-2">
+                                                        <span id="lblNoNotice">Welcome to UTC Online Services.</span>
+                                                    </p>
+                                                </div>
+                                            
+</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <div class="services-wrap rounded-right w-100" style="padding: 1em 3em;">
+                                    <div class="row d-flex">
+                                        <div class="col-md-12 d-flex align-self-stretch ftco-animate">
+                                            <h4 class="mb-0 text-center w-100">
+                                                <span id="lblWelcomeHeader">Welcome to UTC Online Services</span></h4>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row d-flex my-4">
+                                        <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+                                            <div class="ftco-footer-widget">
+                                                <h5 class="heading mb-3">
+                                                    <span id="lblOnlineServices">Online Services</span></h5>
+                                                <div class="block-23">
+                                                    <ul>
+                                                        <li><a href="bookTicket.aspx" class="mb-1"><span class="icon icon-ticket text-primary"></span>&nbsp;<span class="text text-primary">
+                                                            <span id="lblOnlineServicesBookTicket" class="text-primary">Search & Book</span></span></a></li>
+                                                        <li><a href="cancelTicket.aspx" class="mb-1"><span class="icon icon-times text-primary"></span>&nbsp;<span class="text text-primary">
+                                                            <span id="lblOnlineServicesCancelTicket" class="text-primary">Cancel Ticket</span></span></a></li>
+                                                        <li><a href="downloadTicket.aspx" class="mb-1"><span class="icon icon-download text-primary"></span>&nbsp;<span class="text text-primary">
+                                                            <span id="lblOnlineServicesDownloadeTicket" class="text-primary">Download eTicket</span></span></a></li>
+                                                        <li><a href="timetable.aspx" class="mb-1"><span class="icon icon-timer text-primary"></span>&nbsp;<span class="text text-primary">
+                                                            <span id="lblOnlineServicesCheckforSeatAvailability" class="text-primary">Bus Timetable</span></span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+                                            <div class="ftco-footer-widget">
+                                                <h5 class="heading mb-3">
+                                                    <span id="lblOtherServices">Other Services</span></h5>
+                                                <div class="block-23">
+                                                    <ul>
+                                                        <li><a href="trackMyBus.aspx" class="mb-1"><span class="icon icon-map-marker text-primary"></span>&nbsp;<span class="text text-primary">
+                                                            <span id="lblOtherServicesTrackMyBus" class="text-primary">Track My Bus</span></span></a></li>
+                                                        <li><a href="busPass.aspx" class="mb-1"><span class="icon icon-card_membership text-primary"></span>&nbsp;<span class="text text-primary">
+                                                            <span id="lblOtherServicesBusPass" class="text-primary">Bus Pass</span></span></a></li>
+                                                        <li><a id="lbtndownlaodbuspass" class="mb-1" href="javascript:__doPostBack(&#39;lbtndownlaodbuspass&#39;,&#39;&#39;)"><span class="icon icon-download text-primary"></span>&nbsp;<span class="text text-primary">
+                                                            <span id="lblOtherServicesDownloadBusPass" class="text-primary">Download Bus ePass</span></span></a></li>
+                                                        <li><a href="grievance.aspx" class="mb-1"><span class="icon icon-sms_failed text-primary"></span>&nbsp;<span class="text text-primary">
+                                                            <span id="lblOtherServicesGrievance" class="text-primary">Grievance</span></span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex mb-4">
+                                        <div class="col-md-3 d-flex align-self-stretch ftco-animate pr-0">
+                                            <div class="btn btn-light disabled font-weight-bold">
+                                                <span id="lblPopularRoute">Popular Route</span>
+                                                <i class=" icon-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 d-flex align-self-stretch ftco-animate pl-0">
+                                            <marquee direction="left" width="100%" scrollamount="8">
+                                                <ul style="list-style: none; display: inline;">
+                                                
+                                                        <li>
+                                                            <input type="hidden" name="rptrTopRoute$ctl00$frmstation" id="rptrTopRoute_ctl00_frmstation" value="DEHRADUN ISBT (UTTARAKHAND)" />
+                                                            <input type="hidden" name="rptrTopRoute$ctl00$tostation" id="rptrTopRoute_ctl00_tostation" value="DELHI KASHMIRIGATE (DELHI)" />
+                                                            <a id="rptrTopRoute_ctl00_lbtnRoute" class="btn" type="lbtnViewEvent" href="javascript:__doPostBack(&#39;rptrTopRoute$ctl00$lbtnRoute&#39;,&#39;&#39;)">DEHRADUN ISBT-DELHI KASHMIRIGATE - VIA - NOIDA SIXTY TWO</a>                                                           |                                                                      
+                                                           
+                                                        </li>
+                                                    
+                                                        <li>
+                                                            <input type="hidden" name="rptrTopRoute$ctl01$frmstation" id="rptrTopRoute_ctl01_frmstation" value="NAINITAL (UTTARAKHAND)" />
+                                                            <input type="hidden" name="rptrTopRoute$ctl01$tostation" id="rptrTopRoute_ctl01_tostation" value="FARIDABAD (HARYANA)" />
+                                                            <a id="rptrTopRoute_ctl01_lbtnRoute" class="btn" type="lbtnViewEvent" href="javascript:__doPostBack(&#39;rptrTopRoute$ctl01$lbtnRoute&#39;,&#39;&#39;)">NAINITAL-FARIDABAD - VIA - DELHI ANANDVIHAR</a>                                                           |                                                                      
+                                                           
+                                                        </li>
+                                                    
+                                                        <li>
+                                                            <input type="hidden" name="rptrTopRoute$ctl02$frmstation" id="rptrTopRoute_ctl02_frmstation" value="RISHIKESH (UTTARAKHAND)" />
+                                                            <input type="hidden" name="rptrTopRoute$ctl02$tostation" id="rptrTopRoute_ctl02_tostation" value="GURGAON (HARYANA)" />
+                                                            <a id="rptrTopRoute_ctl02_lbtnRoute" class="btn" type="lbtnViewEvent" href="javascript:__doPostBack(&#39;rptrTopRoute$ctl02$lbtnRoute&#39;,&#39;&#39;)">RISHIKESH-GURGAON - VIA - ROORKEE</a>                                                           |                                                                      
+                                                           
+                                                        </li>
+                                                    
+                                                        <li>
+                                                            <input type="hidden" name="rptrTopRoute$ctl03$frmstation" id="rptrTopRoute_ctl03_frmstation" value="DEHRADUN ISBT (UTTARAKHAND)" />
+                                                            <input type="hidden" name="rptrTopRoute$ctl03$tostation" id="rptrTopRoute_ctl03_tostation" value="DELHI KASHMIRIGATE (DELHI)" />
+                                                            <a id="rptrTopRoute_ctl03_lbtnRoute" class="btn" type="lbtnViewEvent" href="javascript:__doPostBack(&#39;rptrTopRoute$ctl03$lbtnRoute&#39;,&#39;&#39;)">DEHRADUN ISBT-DELHI KASHMIRIGATE - VIA - ROORKEE</a>                                                           |                                                                      
+                                                           
+                                                        </li>
+                                                    
+                                                        <li>
+                                                            <input type="hidden" name="rptrTopRoute$ctl04$frmstation" id="rptrTopRoute_ctl04_frmstation" value="DEHRADUN ISBT (UTTARAKHAND)" />
+                                                            <input type="hidden" name="rptrTopRoute$ctl04$tostation" id="rptrTopRoute_ctl04_tostation" value="NAINITAL (UTTARAKHAND)" />
+                                                            <a id="rptrTopRoute_ctl04_lbtnRoute" class="btn" type="lbtnViewEvent" href="javascript:__doPostBack(&#39;rptrTopRoute$ctl04$lbtnRoute&#39;,&#39;&#39;)">DEHRADUN ISBT-NAINITAL - VIA - RUDRAPUR</a>                                                           |                                                                      
+                                                           
+                                                        </li>
+                                                    
+                                            </ul></marquee>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row d-flex">
+                                        <div class="col-md-auto d-flex align-self-stretch ftco-animate">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <span class="icon-person" style="font-size: 50px;"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md d-flex align-self-stretch ftco-animate">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <div class="text w-100 text-dark">
+                                                    <span id="Label1">Conductor of the Month</span>
+                                                    <span id="LabelConductorMonth">Nov-2023</span>
+                                                    <br />
+                                                    <span id="LBTopConductorThisMonth" style="font-weight:bold;">Details will be available soon</span><br />
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-auto d-flex align-self-stretch ftco-animate border-left">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <div class="text w-100 text-center">
+                                                    <span id="lblVisitorNum">Visitor Number</span>
+                                                    <br />
+                                                    <b>
+                                                        <span id="LabelVisitCount" style="color: #011e41;">9217247</span></b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row d-flex">
+                                        <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+                                            <a href="File/2023%20UTC_MAGAZINE_2023_final.pdf" target="_blank" class="mb-1">
+                                                <span class="icon icon-book text-primary"></span>&nbsp;
+                                                <span class="text text-primary">Know about our journey
+                                                    <br />
+                                                    <span class="text-black-50" style="margin-left: 22px;">Download अनवरत पत्रिका
+                                                    </span>
+
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 d-flex align-self-stretch ftco-animate">
+                                            <a id="lbtnAnnivrVideo" class="mb-1" href="javascript:__doPostBack(&#39;lbtnAnnivrVideo&#39;,&#39;&#39;)">
+                                                <span class="icon icon-video_library text-primary"></span>&nbsp;
+                                                <span class="text text-primary">20<sup>th</sup> Anniversary Celebrations<br />
+                                                    <span class="text-black-50" style="margin-left: 22px;">View Video
+                                                    </span>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ftco-section ftco-no-pt bg-light">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+                        <span class="subheading">
+                            <span id="lblSubHeadingBusServices">What we offer</span></span>
+                        <h2 class="mb-3">
+                            <span id="lblHeadingBusServices">Bus Services</span></h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="carousel-car owl-carousel">
+                            
+                                    <div class="item">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <input type="hidden" name="rptServices$ctl00$hdSRTPID" id="rptServices_ctl00_hdSRTPID" value="15" />
+                                            <img id="rptServices_ctl00_img" class="img rounded d-flex align-items-end" src="Dbimg/BusServices/15_W.png" style="border-width:0px;" />
+                                            <div class="text">
+                                                <h2 class=""><a href="#">JANRATH AC</a></h2>
+                                                <!--<div class="d-flex mb-3">
+                                        <span class="cat">Cheverolet</span>
+                                        <p class="price ml-auto">$500 <span>/day</span></p>
+                                    </div>-->
+                                                <p class="d-flex mb-0 d-block">
+                                                    <a href='busServices.aspx?servicetypeid=15' class="btn btn-secondary py-2">
+                                                        <span id="rptServices_ctl00_lblViewDeatils">View Details</span></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="item">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <input type="hidden" name="rptServices$ctl01$hdSRTPID" id="rptServices_ctl01_hdSRTPID" value="10" />
+                                            <img id="rptServices_ctl01_img" class="img rounded d-flex align-items-end" src="Dbimg/BusServices/10_W.png" style="border-width:0px;" />
+                                            <div class="text">
+                                                <h2 class=""><a href="#">ORDINARY</a></h2>
+                                                <!--<div class="d-flex mb-3">
+                                        <span class="cat">Cheverolet</span>
+                                        <p class="price ml-auto">$500 <span>/day</span></p>
+                                    </div>-->
+                                                <p class="d-flex mb-0 d-block">
+                                                    <a href='busServices.aspx?servicetypeid=10' class="btn btn-secondary py-2">
+                                                        <span id="rptServices_ctl01_lblViewDeatils">View Details</span></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="item">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <input type="hidden" name="rptServices$ctl02$hdSRTPID" id="rptServices_ctl02_hdSRTPID" value="14" />
+                                            <img id="rptServices_ctl02_img" class="img rounded d-flex align-items-end" src="Dbimg/BusServices/14_W.png" style="border-width:0px;" />
+                                            <div class="text">
+                                                <h2 class=""><a href="#">VOLVO SUPER LUXURY</a></h2>
+                                                <!--<div class="d-flex mb-3">
+                                        <span class="cat">Cheverolet</span>
+                                        <p class="price ml-auto">$500 <span>/day</span></p>
+                                    </div>-->
+                                                <p class="d-flex mb-0 d-block">
+                                                    <a href='busServices.aspx?servicetypeid=14' class="btn btn-secondary py-2">
+                                                        <span id="rptServices_ctl02_lblViewDeatils">View Details</span></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="item">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <input type="hidden" name="rptServices$ctl03$hdSRTPID" id="rptServices_ctl03_hdSRTPID" value="13" />
+                                            <img id="rptServices_ctl03_img" class="img rounded d-flex align-items-end" src="Dbimg/BusServices/13_W.png" style="border-width:0px;" />
+                                            <div class="text">
+                                                <h2 class=""><a href="#">A C</a></h2>
+                                                <!--<div class="d-flex mb-3">
+                                        <span class="cat">Cheverolet</span>
+                                        <p class="price ml-auto">$500 <span>/day</span></p>
+                                    </div>-->
+                                                <p class="d-flex mb-0 d-block">
+                                                    <a href='busServices.aspx?servicetypeid=13' class="btn btn-secondary py-2">
+                                                        <span id="rptServices_ctl03_lblViewDeatils">View Details</span></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="item">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <input type="hidden" name="rptServices$ctl04$hdSRTPID" id="rptServices_ctl04_hdSRTPID" value="16" />
+                                            <img id="rptServices_ctl04_img" class="img rounded d-flex align-items-end" src="Dbimg/BusServices/16_W.png" style="border-width:0px;" />
+                                            <div class="text">
+                                                <h2 class=""><a href="#">NEPAL MAITRI SEWA</a></h2>
+                                                <!--<div class="d-flex mb-3">
+                                        <span class="cat">Cheverolet</span>
+                                        <p class="price ml-auto">$500 <span>/day</span></p>
+                                    </div>-->
+                                                <p class="d-flex mb-0 d-block">
+                                                    <a href='busServices.aspx?servicetypeid=16' class="btn btn-secondary py-2">
+                                                        <span id="rptServices_ctl04_lblViewDeatils">View Details</span></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="item">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <input type="hidden" name="rptServices$ctl05$hdSRTPID" id="rptServices_ctl05_hdSRTPID" value="17" />
+                                            <img id="rptServices_ctl05_img" class="img rounded d-flex align-items-end" src="Dbimg/BusServices/17_W.png" style="border-width:0px;" />
+                                            <div class="text">
+                                                <h2 class=""><a href="#">VOLVO NON STOP</a></h2>
+                                                <!--<div class="d-flex mb-3">
+                                        <span class="cat">Cheverolet</span>
+                                        <p class="price ml-auto">$500 <span>/day</span></p>
+                                    </div>-->
+                                                <p class="d-flex mb-0 d-block">
+                                                    <a href='busServices.aspx?servicetypeid=17' class="btn btn-secondary py-2">
+                                                        <span id="rptServices_ctl05_lblViewDeatils">View Details</span></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="item">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <input type="hidden" name="rptServices$ctl06$hdSRTPID" id="rptServices_ctl06_hdSRTPID" value="18" />
+                                            <img id="rptServices_ctl06_img" class="img rounded d-flex align-items-end" src="Dbimg/BusServices/18_W.png" style="border-width:0px;" />
+                                            <div class="text">
+                                                <h2 class=""><a href="#">Char Dham</a></h2>
+                                                <!--<div class="d-flex mb-3">
+                                        <span class="cat">Cheverolet</span>
+                                        <p class="price ml-auto">$500 <span>/day</span></p>
+                                    </div>-->
+                                                <p class="d-flex mb-0 d-block">
+                                                    <a href='busServices.aspx?servicetypeid=18' class="btn btn-secondary py-2">
+                                                        <span id="rptServices_ctl06_lblViewDeatils">View Details</span></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="item">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <input type="hidden" name="rptServices$ctl07$hdSRTPID" id="rptServices_ctl07_hdSRTPID" value="19" />
+                                            <img id="rptServices_ctl07_img" class="img rounded d-flex align-items-end" src="Dbimg/BusServices/19_W.png" style="border-width:0px;" />
+                                            <div class="text">
+                                                <h2 class=""><a href="#">AC VOLVO</a></h2>
+                                                <!--<div class="d-flex mb-3">
+                                        <span class="cat">Cheverolet</span>
+                                        <p class="price ml-auto">$500 <span>/day</span></p>
+                                    </div>-->
+                                                <p class="d-flex mb-0 d-block">
+                                                    <a href='busServices.aspx?servicetypeid=19' class="btn btn-secondary py-2">
+                                                        <span id="rptServices_ctl07_lblViewDeatils">View Details</span></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ftco-section ftco-about">
+            <div class="container">
+                <div class="row no-gutters">
+                    <div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center" style="background-image: url(new/images/home.jpg);">
+                    </div>
+                    <div class="col-md-6 wrap-about ftco-animate">
+                        <div class="heading-section heading-section-white pl-md-5">
+
+                            <span class="subheading">
+                                <span id="lblSubHeadingTrackMyBus">Feature</span></span>
+                            <h2 class="mb-4">
+                                <span id="lblHeadingTrackMyBus">Track My Bus</span></h2>
+                            <p>
+                                <span id="lblTextTrackMyBus">Using Track My Bus Feature now it became easy to track a bus on map. This Feauture enable your friends and family members to check your bus location during journey.</span>
+                            </p>
+
+                            <p>
+                                <a href="trackMyBus.aspx" class="btn btn-primary py-3 px-4">
+                                    <span id="lblClickTrack">Click to track</span></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <section class="ftco-section testimony-section bg-light" id="ourMentors">
+            <div class="container">
+                <div class="row justify-content-center mb-5">
+                    <div class="col-md-7 text-center heading-section ftco-animate">
+                        <span class="subheading">
+                            <span id="lblSubHeadingMentors">Respect</span></span>
+                        <h2 class="mb-3">
+                            <span id="lblHeadingMentors">Our Mentors</span></h2>
+                    </div>
+                </div>
+                <div class="row ftco-animate">
+                    
+                            
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <img id="rptmentor_ctl00_img" class="img rounded d-flex align-items-end" src="assets/HomeImage/mentors/Mentor1.jpg" src="" style="border-width:0px;" />
+                                            <div class="p-2">
+                                                <h5>Shri Pushkar Singh Dhami</h5>
+                                                <h6>Hon'ble Chief Minister, Uttarakhand</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <img id="rptmentor_ctl01_img" class="img rounded d-flex align-items-end" src="assets/HomeImage/mentors/Mentor3.jpg" src="" style="border-width:0px;" />
+                                            <div class="p-2">
+                                                <h5>Shri Lalrinliana Fanai (IAS)</h5>
+                                                <h6>Chairman Uttarakhand Transport Corporation</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <img id="rptmentor_ctl02_img" class="img rounded d-flex align-items-end" src="assets/HomeImage/mentors/Mentor4.jpg" src="" style="border-width:0px;" />
+                                            <div class="p-2">
+                                                <h5>Shri Arvind Singh Hyanki (IAS)</h5>
+                                                <h6>Secretary Transport, Uttarakhand</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <img id="rptmentor_ctl03_img" class="img rounded d-flex align-items-end" src="assets/HomeImage/mentors/Mentor5.jpeg" src="" style="border-width:0px;" />
+                                            <div class="p-2">
+                                                <h5>Dr. Anand Srivastava (IAS)</h5>
+                                                <h6>Managing Director, UTC </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                       
+                </div>
+
+            </div>
+        </section>
+        <section class="ftco-section">
+            <div id="UpdatePanel">
+	
+                    <div class="container">
+                        <div class="row justify-content-center mb-2">
+                            <div class="col-md-7 heading-section text-center ftco-animate fadeInUp ftco-animated">
+                                <span class="subheading">
+                                    <span id="lblSubHeadingPhotoGallery">Memories</span></span>
+                                <h2 class="mb-3">
+                                    <span id="lblHeadingPhotoGallery">Photo Gallery</span></h2>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12 text-center">
+
+                                <ul style="list-style: none; display: inline;">
+                                    <li>
+                                        <input type="hidden" name="hdcategoruid" id="hdcategoruid" value="0" />
+                                        <a id="lbtnphotocatgyall" class="btn btn-outline-primary" href="javascript:__doPostBack(&#39;lbtnphotocatgyall&#39;,&#39;&#39;)"> All </a>
+                                    </li>
+                                    
+                                            <li>
+                                                <input type="hidden" name="rptphotocategory$ctl00$hdcategoruid" id="rptphotocategory_ctl00_hdcategoruid" value="7" />
+                                                <a id="rptphotocategory_ctl00_lbtnphotocatgy" class="btn btn-primary" href="javascript:__doPostBack(&#39;rptphotocategory$ctl00$lbtnphotocatgy&#39;,&#39;&#39;)">Awards & Recognitions</a>
+                                            </li>
+                                        
+                                            <li>
+                                                <input type="hidden" name="rptphotocategory$ctl01$hdcategoruid" id="rptphotocategory_ctl01_hdcategoruid" value="6" />
+                                                <a id="rptphotocategory_ctl01_lbtnphotocatgy" class="btn btn-primary" href="javascript:__doPostBack(&#39;rptphotocategory$ctl01$lbtnphotocatgy&#39;,&#39;&#39;)">Our Bus Services</a>
+                                            </li>
+                                        
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row d-flex">
+                            
+                                    <div class="col-md-4 d-flex ftco-animate pb-3 pt-2 fadeInUp ftco-animated">
+                                        <div class="blog-entry justify-content-end">
+                                            <div class="p-3" style="border: 1px solid #f5f4f4; border-radius: 4px;">
+                                                <img id="rptrPhotos_ctl00_Image1" class="block-20" src="libPhotoGallery/img/OurBusServices02282023_154444.jpg" style="border-width:0px;" />
+                                            </div>
+                                            <div class="text-center pt-2">
+                                                <h6 class="text-dark mt-2">Our Bus Services<p>Always there for you whatever the terrain is</p>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-md-4 d-flex ftco-animate pb-3 pt-2 fadeInUp ftco-animated">
+                                        <div class="blog-entry justify-content-end">
+                                            <div class="p-3" style="border: 1px solid #f5f4f4; border-radius: 4px;">
+                                                <img id="rptrPhotos_ctl01_Image1" class="block-20" src="libPhotoGallery/img/OurBusServices02282023_154453.jpg" style="border-width:0px;" />
+                                            </div>
+                                            <div class="text-center pt-2">
+                                                <h6 class="text-dark mt-2">Our Bus Services<p>Always there for you whatever the terrain is</p>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-md-4 d-flex ftco-animate pb-3 pt-2 fadeInUp ftco-animated">
+                                        <div class="blog-entry justify-content-end">
+                                            <div class="p-3" style="border: 1px solid #f5f4f4; border-radius: 4px;">
+                                                <img id="rptrPhotos_ctl02_Image1" class="block-20" src="libPhotoGallery/img/Awards&amp;Recognitions02282023_154837.jpg" style="border-width:0px;" />
+                                            </div>
+                                            <div class="text-center pt-2">
+                                                <h6 class="text-dark mt-2">Awards & Recognitions<p>UTC Got 5 Awards for Fuel Efficiency ,Max Bus Utilisation etc in SRTU Conference 2019</p>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <p>
+                                    <a href="photoGallery.aspx" class="text-primary">
+                                        <span id="lblViewphotos">View More Photos...</span></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                
+</div>
+        </section>
+        <section class="ftco-section ftco-intro" style="background-image: url(new/images/home-3.jpg);">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row justify-content-end">
+                    <div class="col-md-6 heading-section heading-section-white ftco-animate">
+
+                        <span class="subheading">
+                            <span id="lblSubHeadingContactUs">Contact Us</span></span>
+                        <h2 class="mb-3">
+                            <span id="lblHeadingContactUs">Uttarakhand Transport Corporation</span></h2>
+                        <p>
+                            <span id="lblEmailContactUs">Email : help[dot]utconline[at]gmail[dot]com</span>
+                            <br />
+                            <span id="lblMobileNoContactUs">Phone : 8476007605</span>
+                        </p>
+                        <p>
+                            <span id="lblformorecontact">For More Contact Details</span>
+                            <a href="contactUs.aspx" class="text-primary">
+                                <span id="lblClickHere" title="Click here to contact">Click Here</span></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ftco-counter ftco-section img bg-light" id="section-counter">
+            
+            <div class="container">
+                <div class="row justify-content-center mb-5">
+                    <div class="col-md-7 text-center heading-section ftco-animate">
+                        <span class="subheading">
+                            <span id="lblSubHeadingOffer">You can get</span></span>
+                        <h2 class="mb-3">
+                            <span id="lblHeadingOffer">Offers</span></h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 justify-content-center counter-wrap ftco-animate">
+                        <div class="row">
+                            
+                            <div id="pnlNoOffer" style="width:100%;">
+	
+                                <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                                    <h1 class="text-muted">
+                                        <span id="lblNoOffers">Offers will be available soon</span>
+                                    </h1>
+                                </div>
+                            
+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ftco-section testimony-section" id="ourfaq">
+            <div id="UpdatePanel1">
+	
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-7 text-center heading-section ftco-animate fadeInUp ftco-animated">
+                                <h2 class="mb-3">
+                                    <span id="lblAskQs">Frequently Asked Questions</span></h2>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12 text-center">
+                                <ul style="list-style: none; display: inline;">
+                                    
+                                            <li>
+                                                <input type="hidden" name="rptfaqcategory$ctl00$hdFAQCATID" id="rptfaqcategory_ctl00_hdFAQCATID" value="1" />
+                                                <a id="rptfaqcategory_ctl00_lbtnFAQCATNAME" class="btn btn-outline-primary" href="javascript:__doPostBack(&#39;rptfaqcategory$ctl00$lbtnFAQCATNAME&#39;,&#39;&#39;)">Booking</a>
+                                            </li>
+                                        
+                                            <li>
+                                                <input type="hidden" name="rptfaqcategory$ctl01$hdFAQCATID" id="rptfaqcategory_ctl01_hdFAQCATID" value="5" />
+                                                <a id="rptfaqcategory_ctl01_lbtnFAQCATNAME" class="btn btn-primary" href="javascript:__doPostBack(&#39;rptfaqcategory$ctl01$lbtnFAQCATNAME&#39;,&#39;&#39;)">Bus Pass</a>
+                                            </li>
+                                        
+                                            <li>
+                                                <input type="hidden" name="rptfaqcategory$ctl02$hdFAQCATID" id="rptfaqcategory_ctl02_hdFAQCATID" value="2" />
+                                                <a id="rptfaqcategory_ctl02_lbtnFAQCATNAME" class="btn btn-primary" href="javascript:__doPostBack(&#39;rptfaqcategory$ctl02$lbtnFAQCATNAME&#39;,&#39;&#39;)">Cancellation</a>
+                                            </li>
+                                        
+                                            <li>
+                                                <input type="hidden" name="rptfaqcategory$ctl03$hdFAQCATID" id="rptfaqcategory_ctl03_hdFAQCATID" value="6" />
+                                                <a id="rptfaqcategory_ctl03_lbtnFAQCATNAME" class="btn btn-primary" href="javascript:__doPostBack(&#39;rptfaqcategory$ctl03$lbtnFAQCATNAME&#39;,&#39;&#39;)">Concession</a>
+                                            </li>
+                                        
+                                            <li>
+                                                <input type="hidden" name="rptfaqcategory$ctl04$hdFAQCATID" id="rptfaqcategory_ctl04_hdFAQCATID" value="4" />
+                                                <a id="rptfaqcategory_ctl04_lbtnFAQCATNAME" class="btn btn-primary" href="javascript:__doPostBack(&#39;rptfaqcategory$ctl04$lbtnFAQCATNAME&#39;,&#39;&#39;)">Payment</a>
+                                            </li>
+                                        
+                                            <li>
+                                                <input type="hidden" name="rptfaqcategory$ctl05$hdFAQCATID" id="rptfaqcategory_ctl05_hdFAQCATID" value="3" />
+                                                <a id="rptfaqcategory_ctl05_lbtnFAQCATNAME" class="btn btn-primary" href="javascript:__doPostBack(&#39;rptfaqcategory$ctl05$lbtnFAQCATNAME&#39;,&#39;&#39;)">Refund</a>
+                                            </li>
+                                        
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 justify-content-center counter-wrap ftco-animate fadeInUp ftco-animated">
+                                <div class="block-23 mb-3 ">
+                                    <div id="accordion" role="tablist" class="o-accordion">
+                                        
+                                                <h5 class="mt-2 mb-0">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href='#collapse16' aria-expanded="false" aria-controls='collapse16'>How many passengers travel with single reservation e-ticket?
+                                                    </a>
+                                                </h5>
+                                                <div id='collapse16' class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="card-block">
+                                                        Maximum of six seats can be booked on a single e-ticket.
+                                                    </div>
+                                                </div>
+                                            
+                                                <h5 class="mt-2 mb-0">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href='#collapse1' aria-expanded="false" aria-controls='collapse1'>I have lost my ticket what do I do now?
+                                                    </a>
+                                                </h5>
+                                                <div id='collapse1' class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="card-block">
+                                                        A copy of the ticket would have been sent to you by e-mail when you booked the ticket. Please take a printout of that mail and produce it at the time of boarding. If you have not received your ticket to the mail ID you provided, we have flexibility that you will receive a message directly to your mobile from UTC immediately after booking ticket, you can give the PNR Number in website and you can take a printout.
+                                                    </div>
+                                                </div>
+                                            
+                                                <h5 class="mt-2 mb-0">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href='#collapse15' aria-expanded="false" aria-controls='collapse15'>How many days before can I reserve e-ticket?
+                                                    </a>
+                                                </h5>
+                                                <div id='collapse15' class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="card-block">
+                                                        You can reserve your e-ticket through internet before one month from expected journey date excluding date of journey. Seat reservation booking facility will be closed before hour on proposed journey date and schedule departure time of bus service.
+                                                    </div>
+                                                </div>
+                                            
+                                                <h5 class="mt-2 mb-0">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href='#collapse17' aria-expanded="false" aria-controls='collapse17'>Is it mandatory to take a printout of the e-ticket?
+                                                    </a>
+                                                </h5>
+                                                <div id='collapse17' class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="card-block">
+                                                        The SMS that is sent to your registered mobile can be produced at the time of boarding and you will be allowed to travel with valid photo ID proof. You need to show any ID proof Driving License, Voter ID, Passport, PAN Card, and AADHAR Card to the conductor. Within the time period specified in the ticket details SMS.
+                                                    </div>
+                                                </div>
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+</div>
+        </section>
+
+        
+        <footer class="ftco-footer ftco-bg-dark ftco-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md">
+                        <div class="ftco-footer-widget mb-4">
+                            <h2 class="ftco-heading-2 mb-1">
+
+                                <span id="lblTitle1" class="text-white">Owned & Maintained By</span>
+                            </h2>
+                            <p>
+
+                                <span id="lblManagedBy">Uttarakhand Transport Corporation</span>
+                            </p>
+                            <ul class="list-unstyled">
+                                <li><a data-toggle="modal" data-target="#WebInfo" class="d-block" style="cursor: pointer;">
+                                    <span id="lblFooterWebInformationManager">Web Information Manager</span></a></li>
+                                <li><a data-toggle="modal" data-target="#disclaimer" class="d-block" style="cursor: pointer;">
+                                    <span id="lblFooterDisclaimer">Disclaimer</span></a></li>
+                                <li><a data-toggle="modal" data-target="#privacy" class="d-block" style="cursor: pointer;">
+                                    <span id="lblFooterPrivacyPolicy">Privacy Policy</span></a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="ftco-footer-widget mb-4">
+                            <h2 class="ftco-heading-2 mb-1">
+                                <span id="lblFooter">Contact Us</span></h2>
+                            <div class="block-23 mb-3">
+                                <ul>
+                                    <li><span class="icon icon-map-marker"></span>&nbsp;<span class="text">
+                                        <span id="lblFooterAddress">Uttarakhand Transport Corporation</span></span></li>
+                                    <li><span class="icon icon-phone"></span>&nbsp;<span class="text">
+                                        <span id="lblFooterContactNo">8476007605</span></span></li>
+                                    <li><span class="icon icon-envelope"></span>&nbsp;<span class="text pl-1">
+                                        <span id="lblFooterEmail">help[dot]utconline[at]gmail[dot]com</span></span></li>
+                                </ul>
+                            </div>
+                            <ul class="ftco-footer-social list-unstyled float-md-left float-lft d-inline ">
+                                <li class="ftco-animate"><a href="https://www.facebook.com/uttarakandparivahan/" id="fbLink" target="_blank"><span class="icon-facebook"></span></a></li>
+                                <li class="ftco-animate"><a href="https://www.youtube.com/channel/UCVa5JFfeQM3ew3JGbPxXi0Q" id="ytLink" target="_blank"><span class="icon-youtube"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="ftco-footer-widget mb-4">
+                            <h2 class="ftco-heading-2 mb-1">
+                                <span id="lblFooterPoweredBy">Powered By</span></h2>
+                            <img src="new/images/nic.png" style="height: 60px;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+                            &copy; 2023
+							<span id="lblRights">All rights reserved NIC</span>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <a href="#topp" id="myBtn" title="Go to top" meta:resourcekey="myBtnResource1">^</a>
+        <script>
+            // Get the button
+            let mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function () { scrollFunction() };
+
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+        </script>
+
+
+
+        <!-- loader -->
+        <div id="ftco-loader" class="show fullscreen">
+            <svg class="circular" width="48px" height="48px">
+                <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+                <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" />
+            </svg>
+        </div>
+        <div class="modal fade" id="WebInfo" style="z-index: 10000;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            <span id="lblWebinfo">Web Information Manager</span></h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <p>
+                            <span id="lblquery">For any query/suggestion/help regarding this website please feel free to contact.</span>
+                        </p>
+                        <p>
+                            <b>
+                                <span id="lblcontactperson">Mr. Mukesh Singh</span></b>
+                        </p>
+                        <p>
+                            <b>
+                                <span id="lblContactDesg">Deputy General Manager</span></b>
+                        </p>
+                        <p>
+                            <span class="icon-envelope"></span>&nbsp;
+                        <img src="CitizenAssets/assets/img/uu.png" style="margin-left: -7px;" />
+                            <br />
+                            <span class="icon-map-marker"></span>&nbsp;
+							<span id="lblLocation">1, Raj Vihar ,Chakrata Road, DehraDun,
+                        Uttarakhand 248001</span>
+                        </p>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            <span id="LblClosePop">Close</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="disclaimer" style="z-index: 10000;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            <span id="lblDisclaimer">Disclaimer</span></h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <p>
+                                <span id="lbldisclaimer1"><p style="line-height: normal; margin: 0pt 0pt 0.0001pt;">&nbsp;</p>
+<ul class="list-unstyled text-justify" style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; padding-left: 15px; list-style: none; color: #4d4d4d; font-family: 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; text-align: justify;">
+<li style="box-sizing: border-box; list-style-type: none;">1. The information contained in this website is for general information purposes only.</li>
+<li style="box-sizing: border-box; list-style-type: none;">2. The information is provided by UTC and while we endeavor to keep the information up to date and correct, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the website or the information, products, services, or related graphics contained on the website for any purpose.</li>
+<li style="box-sizing: border-box; list-style-type: none;">3. By accessing our site, you agree to hold us harmless from any information contained herein and information contained in links accessed through our website.</li>
+<li style="box-sizing: border-box; list-style-type: none;">4. Every effort is made to keep the website up and running smoothly. However, UTC takes no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</li>
+</ul></span>
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            <span id="lblclose">Close</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="privacy" style="z-index: 10000;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            <span id="lblpolicy">Privacy Policy</span></h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body text-justify">
+                        <p>
+                            <span id="lblprivacypolicy"><p style="line-height: normal; margin: 0pt 0pt 0.0001pt;">&nbsp;</p>
+<p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; color: #4d4d4d; font-family: 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; text-align: justify; font-weight: bold;"><strong>UTC is committed to protecting your privacy</strong></p>
+<p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; color: #4d4d4d; font-family: 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; text-align: justify;">The information ("INFORMATION") supplied by you ("USER") in using UTC whether taken or supplied, with or without USER knowledge is subject to the following conditions and guarantee.</p>
+<p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; color: #4d4d4d; font-family: 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; text-align: justify; font-weight: bold;"><strong>What Information Do We Collect?</strong></p>
+<p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; color: #4d4d4d; font-family: 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; text-align: justify;">When you submit details from our comments/feedback/complaints/enquiries form we collect your name, email address, and contact information. When you contact us by email we may collect your email address.</p></span>
+                        </p>
+
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            <span id="lblClose1">Close</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
+        <div id="pnlError">
+	
+            <div class="card" style="width: 320px">
+                <div class="card-body pb-0">
+                    <span id="lblMsgmpError"></span>
+                    <p class="text-right pt-4 pb-0">
+                        <a id="btnClosempError" class="btn btn-warning text-primary">
+                            <span id="lblClose2">Close</span></a>
+                    </p>
+                </div>
+
+            </div>
+        
+</div>
+        <div style="visibility: hidden">
+            <input type="submit" name="Button1" value="" id="Button1" />
+        </div>
+
+        <div class="row">
+            
+            <div id="pnlEventAlert" style="position: fixed;">
+	
+                <div class="card">
+
+                    <div class="text-right">
+                        <a id="lbtnNoConfirmation" class="btn btn-danger btn-sm" href="javascript:__doPostBack(&#39;lbtnNoConfirmation&#39;,&#39;&#39;)" style="margin-right: -10px; margin-top: -20px;"> <i class="fa fa-times"></i> </a>
+
+                    </div>
+
+                    <div class="card-body p-2" style="min-height: 100px; color: black; min-width: 40vw; max-width: 80vw;">
+
+                        <div class="slideshow-container">
+                            
+                                    <div id="rpteventalert_ctl00_pnlEventAlertcarousel" class="mySlides active">
+		
+                                        <a href='https://uk.gov.in/assets/pdf/MERI%20_YOJANA_book_04-12-23.pdf' target="_blank">
+                                            <img id="rpteventalert_ctl00_imgEventAlert" src="Dbimg\AlertNotice\39_W.jpg" style="border-width:0px;height: 350px; width: 100%" />
+                                        </a>
+                                        <input type="hidden" name="rpteventalert$ctl00$hdnotice_id" id="rpteventalert_ctl00_hdnotice_id" value="39" />
+                                        <p class="mb-0 mt-2">
+                                            <span id="rpteventalert_ctl00_lblSubject">Meri Yojna</span>
+                                        </p>
+                                        <p>
+                                            <a id="rpteventalert_ctl00_lbtnViewMore1" href="javascript:__doPostBack(&#39;rpteventalert$ctl00$lbtnViewMore1&#39;,&#39;&#39;)">Read more ...
+                                            </a>
+                                        </p>
+                                    
+	</div>
+                                
+                                    <a class="prev" onclick="plusSlides(-1)">❮</a>
+                                    <a class="next" onclick="plusSlides(1)">❯</a>
+
+                                    <div style="text-align: center; padding: 0px">
+                                        <span class="dot" onclick="currentSlide(1)"></span>
+                                        <span class="dot" onclick="currentSlide(2)"></span>
+                                    </div>
+                                
+                        </div>
+
+                    </div>
+                </div>
+
+                <div style="visibility: hidden;">
+                    <input type="submit" name="Button4" value="" id="Button4" />
+                </div>
+
+            
+</div>
+        </div>
+        
+        <div id="pnlmpFirst">
+	
+            <div class="card">
+                <div class="card-body overflow-auto" style="min-width: 35vw !important; max-width: 95vw !important; min-height: 40vh; max-height: 80vh;">
+                    <div class="w-100 text-center">
+                        <h2 class="text-center">Pathik UTC Traveller</h2>
+                        <h4 class="text-center">Mobile App is also available for availing our online services</h4>
+                    </div>
+
+                    <a id="a_playstore" href="https://play.google.com/store/apps/details?id=com.utconline.utcbooking" target="_blank" class="w-100">
+                        <img src="googlePlay/google-play-badge.png" class="w-100" />
+                    </a>
+
+                    <a id="a_appstore" href="https://apps.apple.com/in/app/pathik-utc-traveller-app/id6448721447?platform=iphone" target="_blank" class="w-100">
+                        <img src="googlePlay/app-store-badge.png" class="w-100" />
+                    </a>
+
+                    <a id="btnClosempFirst" class="btn btn-link w-100 mt-3"><i class="fa fa-times pr-1"></i>Not Now</a>
+                </div>
+            </div>
+        
+</div>
+        <div style="visibility: hidden">
+            <input type="submit" name="btnOpenmpFirst" value="" id="btnOpenmpFirst" />
+        </div>
+
+<div class="row">
+            
+            <div id="pnlvideo">
+	
+                <div class="card">
+                    <div class="card-header">
+                       UTTARAKHAND TRANSPORT CORPORATION , 20th FOUNDATION DAY
+                        <a id="lbtnclose" class="btn btn-danger" href="javascript:__doPostBack(&#39;lbtnclose&#39;,&#39;&#39;)" style="float: right;">  <i class="fa fa-times"></i></a>
+                    </div>
+                    <div class="card-body overflow-auto" style="min-width: 50vw !important; max-width: 100vw !important; min-height: 50vh; max-height: 100vh;">
+                        <iframe title='YouTube video player' style='min-width: 50vw !important; max-width: 100vw !important; min-height: 50vh; max-height: 100vh;' src='https://www.youtube.com/embed/lvv-ry0RNlM?autoplay=1&mute=1' frameborder='0'  autoplay='1' allow='autoplay' allowfullscreen='1'></iframe
+                    </div>
+
+                </div>
+            
+</div>
+            <div style="visibility: hidden">
+                <input type="submit" name="Button2" value="" id="Button2" />
+                <input type="submit" name="Button3" value="" id="Button3" />
+            </div>
+        </div>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.Extended.UI.Localization.SetLocale("hi");Sys.Extended.UI.Localization.SetLocale("hi");Sys.Extended.UI.Localization.SetLocale("hi");(function() {var fn = function() {Sys.Extended.UI.ModalPopupBehavior.invokeViaServer('mpEventAlert', true); Sys.Application.remove_load(fn);};Sys.Application.add_load(fn);})();
+theForm.oldSubmit = theForm.submit;
+theForm.submit = WebForm_SaveScrollPositionSubmit;
+
+theForm.oldOnSubmit = theForm.onsubmit;
+theForm.onsubmit = WebForm_SaveScrollPositionOnSubmit;
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.FilteredTextBoxBehavior, {"FilterType":3,"ValidChars":"/","id":"ftb1"}, null, null, $get("tbDate"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.CalendarBehavior, {"button":$get("tbDate"),"cssClass":"black","endDate":"2024-01-27","format":"dd/MM/yyyy","id":"cetxtDateSeatAvailability","startDate":"2023-12-28"}, null, null, $get("tbDate"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","CancelControlID":"btnClosempError","PopupControlID":"pnlError","dynamicServicePath":"/Home.aspx","id":"mpError"}, null, null, $get("Button1"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","CancelControlID":"lbtnNoConfirmation","PopupControlID":"pnlEventAlert","dynamicServicePath":"/Home.aspx","id":"mpEventAlert"}, null, null, $get("Button4"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","CancelControlID":"btnClosempFirst","PopupControlID":"pnlmpFirst","dynamicServicePath":"/Home.aspx","id":"mpFirst"}, null, null, $get("btnOpenmpFirst"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","CancelControlID":"Button3","PopupControlID":"pnlvideo","dynamicServicePath":"/Home.aspx","id":"mpvideo"}, null, null, $get("Button2"));
+});
+//]]>
+</script>
+</form>
+    <script src="new/js/jquery.min.js"></script>
+    <script src="new/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="new/js/popper.min.js"></script>
+    <script src="new/js/bootstrap.min.js"></script>
+    <script src="new/js/jquery.easing.1.3.js"></script>
+    <script src="new/js/jquery.waypoints.min.js"></script>
+    <script src="new/js/jquery.stellar.min.js"></script>
+    <script src="new/js/owl.carousel.min.js"></script>
+    <script src="new/js/jquery.magnific-popup.min.js"></script>
+    <script src="new/js/aos.js"></script>
+    <script src="new/js/jquery.animateNumber.min.js"></script>
+    <script src="new/js/bootstrap-datepicker.js"></script>
+    <script src="new/js/jquery.timepicker.min.js"></script>
+    <script src="new/js/scrollax.min.js"></script>
+    <script src="new/js/main.js"></script>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+
+            if (n > slides.length) { slideIndex = 1 }
+
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+
+        }
+    </script>
+    <style>
+        #dhwani_bot_div .table {
+            width: 100% !important;
+            min-width: 100% !important;
+            margin-bottom: 20px;
+        }
+
+        .dw-open-button {
+            bottom: 80px !important;
+        }
+    </style>
+    <script src="assets/js/dhwani_utc.js"></script>
+    <link href="assets/css/dhwani1.css" rel="stylesheet" />
+
+</body>
+</html>
